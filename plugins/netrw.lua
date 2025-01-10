@@ -1,6 +1,8 @@
 return {
     'prichrd/netrw.nvim',
-    opts = {},
+    dependencies = {
+        'echasnovski/mini.icons'
+    },
     config = function()
         require("netrw").setup({
             use_devicons = true,

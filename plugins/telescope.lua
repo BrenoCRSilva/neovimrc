@@ -2,6 +2,7 @@ return {
     'nvim-telescope/telescope.nvim', tag = '0.1.8',
 
     dependencies = {
+    'echasnovski/mini.icons',
 	'nvim-lua/plenary.nvim' ,
     {'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }
     },
@@ -30,9 +31,9 @@ return {
                 cwd = vim.fn.stdpath("config")
             }
         end)
-        vim.keymap.set("n", "<leader>fp", function()
+        vim.keymap.set("n", "<leader>fw", function()
             require("telescope.builtin").find_files {
-                cwd = "~/projects/github.com/BrenoCRSilva"
+                cwd = "~/Workspace/"
             }
         end)
 
