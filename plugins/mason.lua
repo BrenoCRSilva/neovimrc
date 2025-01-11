@@ -30,6 +30,7 @@ return {
     mason_tool_installer.setup({
       ensure_installed = {
         "stylua", -- lua formatter
+        "gofumpt",
         "golines",
         "goimports",
         "gomodifytags"
