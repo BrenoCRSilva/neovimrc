@@ -31,6 +31,8 @@ return {
 			[[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠙⢿⣿⣿⣿⣿⣷⣶⣶⣿⠟⠁⠀⠀⠀⠀⠀⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
 			[[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⠻⠿⠿⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀]],
 		}
+		dashboard.section.header.opts.hl = "HeaderA"
+		dashboard.section.footer.opts.hl = "FooterA"
 		dashboard.section.buttons.val = {
 			dashboard.button("f", "  Find file", ":Telescope find_files<CR>"),
 			dashboard.button("w", "  Workspace", ":e ~/Workspace/<CR>"),
@@ -50,6 +52,7 @@ return {
 				"Inherited Will, the Flow of Time, and the Dreams of the people... These are things that cannot be stopped.",
 				155
 			),
+			centerText("", 50),
 			centerText("", 50),
 			centerText(version, 155),
 		}

@@ -37,5 +37,7 @@ return {
 				cwd = "~/Workspace/",
 			})
 		end)
+		vim.keymap.set("n", "<leader>fr", require("telescope.builtin").live_grep)
+		vim.keymap.set("n", "<leader>fs", require("telescope.builtin").grep_string)
 	end,
 }

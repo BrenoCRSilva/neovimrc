@@ -3,7 +3,6 @@ return {
 	name = "rose-pine",
 	config = function()
 		require("rose-pine").setup({
-			transparent = true,
 			variant = "moon",
 			palette = {
 				moon = {
@@ -13,5 +12,9 @@ return {
 			},
 		})
 		vim.cmd("colorscheme rose-pine")
+		vim.api.nvim_set_hl(0, "@function.builtin", { fg = "#eb6f92" })
+		vim.api.nvim_set_hl(0, "@type.builtin", { bold = true, fg = "#9ccfd8" })
+		vim.api.nvim_set_hl(0, "HeaderA", { fg = "#c0c0c0" })
+		vim.api.nvim_set_hl(0, "FooterA", { fg = "#6e6a86" })
 	end,
 }
