@@ -31,7 +31,7 @@ return {
             },
     },
       completion = {
-        completeopt = "menu,menuone,preview,noselect",
+        completeopt = "menu,menuone,preview,noinsert",
       },
       snippet = { -- configure how nvim-cmp interacts with snippet engine
         expand = function(args)
@@ -44,7 +44,7 @@ return {
         ["<C-p>"] = cmp.mapping.scroll_docs(-4),
         ["<C-n>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
-        ["<CR>"] = cmp.mapping.confirm({ select = false }),
+        ["<CR>"] = cmp.mapping.confirm({ select = true }),
       }),
       -- sources for autocompletion
       sources = cmp.config.sources({
@@ -62,8 +62,8 @@ return {
                 local highlights_info = require("colorful-menu").cmp_highlights(entry)
                 local strings = vim.split(kind.kind, "%s", { trimempty = true })
                 if highlights_info ~= nil then
-                    vim_item.abbr_hl_group = highlights_info.highlights
-                    vim_item.abbr = highlights_info.text
+                    kind.abbr_hl_group = highlights_info.highlights
+                    kind.abbr = highlights_info.text
                 end
                 kind.kind = " " .. (strings[1] or "") .. " "
                 kind.menu = "    (" .. (strings[2] or "") .. ")"
