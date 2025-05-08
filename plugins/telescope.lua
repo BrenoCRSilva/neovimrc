@@ -20,9 +20,14 @@ return {
 			},
 		})
 		require("telescope").load_extension("fzf")
-		vim.keymap.set("n", "<leader>ff", require("telescope.builtin").find_files)
+		vim.keymap.set("n", "<leader>ff", function()
+			require("telescope.builtin").find_files({
+				cwd = "~/",
+			})
+		end)
 		vim.keymap.set("n", "<leader>fa", function()
 			require("telescope.builtin").find_files({
+				cwd = "~/",
 				hidden = true,
 			})
 		end)

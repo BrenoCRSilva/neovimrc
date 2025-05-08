@@ -7,6 +7,8 @@ return {
 			"xzbdmw/colorful-menu.nvim",
 			"onsails/lspkind.nvim",
 			"neovim/nvim-lspconfig",
+			"zbirenbaum/copilot-cmp",
+			"zbirenbaum/copilot.lua",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
@@ -23,13 +25,22 @@ return {
 			require("luasnip.loaders.from_vscode").lazy_load()
 
 			cmp.setup({
+				view = {
+					docs = {
+						auto_open = false,
+					},
+				},
 				window = {
 					completion = {
-						winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+						winhighlight = "Normal:CmpNormal,FloatBorder:CmpNormal,Search:None",
 						col_offset = -3,
 						side_padding = 0,
 					},
+					documentation = {
+						winhighlight = "Normal:CmpNormal,FloatBorder:CmpNormal,Search:None",
+					},
 				},
+				preselect = cmp.PreselectMode.None,
 				completion = {
 					completeopt = "menu,menuone,preview,noinsert",
 				},
@@ -40,6 +51,13 @@ return {
 				},
 				mapping = cmp.mapping.preset.insert({
 					["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
+					["<C-g>"] = function()
+						if cmp.visible_docs() then
+							cmp.close_docs()
+						else
+							cmp.open_docs()
+						end
+					end,
 					["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
 					["<C-p>"] = cmp.mapping.scroll_docs(-4),
 					["<C-n>"] = cmp.mapping.scroll_docs(4),
@@ -48,6 +66,7 @@ return {
 				}),
 				-- sources for autocompletion
 				sources = cmp.config.sources({
+					{ name = "copilot" },
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" }, -- snippets
 					{ name = "buffer" }, -- text within current buffer
@@ -58,8 +77,11 @@ return {
 				formatting = {
 					fields = { "kind", "abbr", "menu" },
 					format = function(entry, vim_item)
-						local kind =
-							require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
+						local kind = require("lspkind").cmp_format({
+							mode = "symbol_text",
+							maxwidth = 50,
+							symbol_map = { Copilot = "" },
+						})(entry, vim_item)
 						local highlights_info = require("colorful-menu").cmp_highlights(entry)
 						local strings = vim.split(kind.kind, "%s", { trimempty = true })
 						if highlights_info ~= nil then
