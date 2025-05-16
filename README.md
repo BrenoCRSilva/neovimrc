@@ -50,9 +50,8 @@ Aguarde a instalação e reinicie o Neovim.
 ```
 nvim/
 ├── init.lua         # Arquivo principal de configuração
-├── lua/             # Configurações organizadas por arquivos
-│   ├── plugins/     # Plugins configurados com Lazy
-│   └── core/        # Módulos base (atalhos, LSP, etc)
+├── lua/             # Configurações organizadas por arquivos    
+│   └─ plugins/      # Plugins configurados com Lazy
 ```
 
 ---
