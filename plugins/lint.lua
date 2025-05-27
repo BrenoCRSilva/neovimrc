@@ -7,7 +7,6 @@ return {
 		lint.linters_by_ft = {
 			lua = { "luacheck" },
 			go = { "golangcilint" },
-			python = { "ruff" },
 			sql = { "sqlfluff" },
 		}
 		lint.linters.luacheck.args = { "vim" }
