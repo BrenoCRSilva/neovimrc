@@ -9,13 +9,15 @@ return {
 	},
 	config = function()
 		local actions = require("telescope.actions")
-		local open_with_trouble = require("trouble.sources.telescope").open
-		local add_to_trouble = require("trouble.sources.telescope").add
+		local function send_to_trouble_quickfix(prompt_bufnr)
+			actions.send_to_qflist(prompt_bufnr)
+			require("trouble").open("quickfix")
+		end
 		require("telescope").setup({
 			defaults = {
 				mappings = {
-					i = { ["<c-i>"] = open_with_trouble },
-					n = { ["<c-i>"] = open_with_trouble },
+					i = { ["<c-i>"] = send_to_trouble_quickfix },
+					n = { ["<c-i>"] = send_to_trouble_quickfix },
 				},
 				sorting_strategy = "ascending",
 				layout_config = {
@@ -30,6 +32,17 @@ return {
 		vim.keymap.set("n", "<leader>ff", function()
 			require("telescope.builtin").find_files({
 				cwd = "~/",
+			})
+		end)
+		vim.keymap.set("n", "<leader>fl", function()
+			require("telescope.builtin").find_files({
+				cwd = vim.uv.cwd(),
+			})
+		end)
+		vim.keymap.set("n", "<leader>fb", function()
+			local word = vim.fn.expand("<cword>")
+			require("telescope.builtin").current_buffer_fuzzy_find({
+				default_text = word,
 			})
 		end)
 		vim.keymap.set("n", "<leader>fa", function()

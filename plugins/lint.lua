@@ -8,6 +8,7 @@ return {
 			lua = { "luacheck" },
 			go = { "golangcilint" },
 			sql = { "sqlfluff" },
+			typescript = { "eslint" },
 		}
 		lint.linters.luacheck.args = { "vim" }
 		local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })

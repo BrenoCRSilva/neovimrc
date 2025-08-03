@@ -7,8 +7,8 @@ return {
 			"xzbdmw/colorful-menu.nvim",
 			"onsails/lspkind.nvim",
 			"neovim/nvim-lspconfig",
-			"zbirenbaum/copilot-cmp",
-			"zbirenbaum/copilot.lua",
+			-- "zbirenbaum/copilot-cmp",
+			-- "zbirenbaum/copilot.lua",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
@@ -66,7 +66,6 @@ return {
 				}),
 				-- sources for autocompletion
 				sources = cmp.config.sources({
-					{ name = "copilot" },
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" }, -- snippets
 					{ name = "buffer" }, -- text within current buffer
@@ -93,6 +92,7 @@ return {
 						return kind
 					end,
 				},
+				{ name = "copilot" },
 			})
 		end,
 	},

@@ -24,6 +24,8 @@ return {
 				"lua_ls",
 				"pyright",
 				"gopls",
+				"eslint",
+				"ts_ls",
 			},
 		})
 
@@ -34,6 +36,7 @@ return {
 				"golines",
 				"goimports",
 				"gomodifytags",
+				"prettier", -- javascript/typescript formatter
 			},
 		})
 	end,
