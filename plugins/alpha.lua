@@ -36,7 +36,7 @@ return {
 		dashboard.section.footer.opts.hl = "FooterA"
 		dashboard.section.buttons.val = {
 			dashboard.button("f", "  Find file", ":Telescope find_files<CR>"),
-			dashboard.button("n", "󱏒  File Explorer", ":Ex<CR>"),
+			dashboard.button("n", "󱏒  File Explorer", ":Oil<CR>"),
 			dashboard.button("c", "  Configuration", ":e ~/.config/nvim/lua<CR>"),
 		}
 		local function centerText(text, width)

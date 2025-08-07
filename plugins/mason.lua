@@ -34,6 +34,7 @@ return {
 				"stylua", -- lua formatter
 				"gofumpt",
 				"golines",
+				"postgrestools",
 				"goimports",
 				"gomodifytags",
 				"prettier", -- javascript/typescript formatter

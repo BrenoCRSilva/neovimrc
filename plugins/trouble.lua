@@ -1,58 +1,80 @@
 return {
 	"folke/trouble.nvim",
-	opts = {
-		modes = {
-			quickfix = {
-				auto_open = false,
-				auto_close = false,
-				focus = true,
-				group = false, -- Explicitly disable grouping for quickfix (flat list)
-				indent_lines = false, -- No indentation for flat list
-				keys = {
-					["<cr>"] = "jump", -- Jump to selected item
-					["<esc>"] = "close", -- Close with Esc
-					["<C-N>"] = { action = "next", focus = true }, -- Jump to next, focus buffer
-					["<C-P>"] = { action = "prev", focus = true },
+	config = function()
+		local trouble = require("trouble")
+		trouble.setup({
+			modes = {
+				buffer_diagnostics = {
+					auto_open = false,
+					auto_close = true,
+					focus = false,
+					group = false,
+					indent_lines = false,
+					filter = { buf = 0 },
+					keys = {
+						["<cr>"] = "jump",
+						["<esc>"] = "close",
+					},
 				},
-			}, -- for default options, refer to the configuration section for custom setup.
-			diagnostics = {
-				auto_open = false,
-				auto_close = false,
-				focus = true,
-				group = false, -- Explicitly disable grouping for quickfix (flat list)
-				indent_lines = false, -- No indentation for flat list
-				keys = {
-					["<cr>"] = "jump", -- Jump to selected item
-					["<esc>"] = "close", -- Close with Esc
-					["<C-n>"] = { action = "next", focus = true }, -- Jump to next, focus buffer
-					["<C-p>"] = { action = "prev", focus = true },
+				quickfix = {
+					auto_open = false,
+					auto_close = true,
+					focus = false,
+					group = false,
+					indent_lines = false,
+					keys = {
+						["<cr>"] = "jump",
+						["<esc>"] = "close",
+					},
+				},
+				diagnostics = {
+					auto_open = false,
+					auto_close = true,
+					focus = false,
+					group = false,
+					indent_lines = false,
+					keys = {
+						["<cr>"] = "jump",
+						["<esc>"] = "close",
+					},
 				},
 			},
-		},
-	},
-	cmd = "Trouble",
-	keys = {
-		{
-			"<leader>cq",
-			function()
-				vim.fn.setqflist({})
-				require("trouble").refresh({ mode = "quickfix" })
-			end,
-		},
-		{
-			"<leader>ta",
-			"<cmd>Trouble diagnostics toggle<cr>",
-			desc = "Diagnostics (Trouble)",
-		},
-		{
-			"<leader>tt",
-			"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-			desc = "Buffer Diagnostics (Trouble)",
-		},
-		{
-			"<leader>cc",
-			"<cmd>Trouble qflist toggle<cr>",
-			desc = "Quickfix List (Trouble)",
-		},
-	},
+		})
+		local current_trouble_mode = nil
+		local function toggle_exclusive(mode)
+			if trouble.is_open() and current_trouble_mode == mode then
+				trouble.close()
+				current_trouble_mode = nil
+			else
+				if trouble.is_open() then
+					trouble.close()
+				end
+				trouble.open(mode)
+				current_trouble_mode = mode
+			end
+		end
+		vim.keymap.set("n", "<C-n>", function()
+			if trouble.is_open() then
+				trouble.next({ skip_groups = true, jump = true })
+			end
+		end)
+		vim.keymap.set("n", "<C-p>", function()
+			if trouble.is_open() then
+				trouble.prev({ skip_groups = true, jump = true })
+			end
+		end)
+		vim.keymap.set("n", "<leader>cq", function()
+			vim.fn.setqflist({})
+			trouble.refresh({ mode = "quickfix" })
+		end)
+		vim.keymap.set("n", "<leader>tt", function()
+			toggle_exclusive("diagnostics")
+		end)
+		vim.keymap.set("n", "<leader>th", function()
+			toggle_exclusive("buffer_diagnostics")
+		end)
+		vim.keymap.set("n", "<leader>tf", function()
+			toggle_exclusive("quickfix")
+		end)
+	end,
 }

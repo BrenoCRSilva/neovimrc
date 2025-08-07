@@ -9,9 +9,14 @@ return {
 	},
 	config = function()
 		local actions = require("telescope.actions")
+		local trouble = require("trouble")
 		local function send_to_trouble_quickfix(prompt_bufnr)
 			actions.send_to_qflist(prompt_bufnr)
-			require("trouble").open("quickfix")
+			if trouble.is_open() then
+				trouble.close()
+				trouble.open("quickfix")
+			end
+			trouble.open("quickfix")
 		end
 		require("telescope").setup({
 			defaults = {
@@ -29,12 +34,12 @@ return {
 			},
 		})
 		require("telescope").load_extension("fzf")
-		vim.keymap.set("n", "<leader>ff", function()
+		vim.keymap.set("n", "<leader>fa", function()
 			require("telescope.builtin").find_files({
 				cwd = "~/",
 			})
 		end)
-		vim.keymap.set("n", "<leader>fl", function()
+		vim.keymap.set("n", "<leader>ff", function()
 			require("telescope.builtin").find_files({
 				cwd = vim.uv.cwd(),
 			})
@@ -45,28 +50,22 @@ return {
 				default_text = word,
 			})
 		end)
-		vim.keymap.set("n", "<leader>fa", function()
+		vim.keymap.set("n", "<leader>fh", function()
 			require("telescope.builtin").find_files({
 				cwd = "~/",
 				hidden = true,
 			})
 		end)
-		vim.keymap.set("n", "<leader>fh", require("telescope.builtin").help_tags)
 		vim.keymap.set("n", "<leader>fc", function()
 			require("telescope.builtin").find_files({
 				cwd = vim.fn.stdpath("config"),
 			})
 		end)
 		vim.keymap.set("n", "<leader>fw", function()
-			require("telescope.builtin").find_files({
-				cwd = "~/Workspace/",
-			})
-		end)
-		vim.keymap.set("n", "<leader>fs", function()
 			local word = vim.fn.expand("<cword>")
 			require("telescope.builtin").grep_string({ search = word })
 		end)
-		vim.keymap.set("n", "<leader>fS", function()
+		vim.keymap.set("n", "<leader>fW", function()
 			local word = vim.fn.expand("<cWORD>")
 			require("telescope.builtin").grep_string({ search = word })
 		end)

@@ -3,6 +3,7 @@ vim.opt.nu = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.relativenumber = true
 vim.opt.tabstop = 4
+vim.opt.virtualedit = "block"
 vim.opt.softtabstop = 4
 vim.opt.updatetime = 100
 vim.opt.pumblend = 10

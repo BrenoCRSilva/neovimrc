@@ -7,8 +7,6 @@ return {
 			"xzbdmw/colorful-menu.nvim",
 			"onsails/lspkind.nvim",
 			"neovim/nvim-lspconfig",
-			-- "zbirenbaum/copilot-cmp",
-			-- "zbirenbaum/copilot.lua",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
@@ -51,6 +49,8 @@ return {
 				},
 				mapping = cmp.mapping.preset.insert({
 					["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
+					["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
+					["<CR>"] = cmp.mapping.confirm({ select = true }),
 					["<C-g>"] = function()
 						if cmp.visible_docs() then
 							cmp.close_docs()
@@ -58,11 +58,6 @@ return {
 							cmp.open_docs()
 						end
 					end,
-					["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
-					["<C-p>"] = cmp.mapping.scroll_docs(-4),
-					["<C-n>"] = cmp.mapping.scroll_docs(4),
-					["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
-					["<CR>"] = cmp.mapping.confirm({ select = true }),
 				}),
 				-- sources for autocompletion
 				sources = cmp.config.sources({

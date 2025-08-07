@@ -1,13 +1,24 @@
 return {
 	"cbochs/grapple.nvim",
 	dependencies = {
-		{ "nvim-tree/nvim-web-devicons", lazy = true },
+		{ "echasnovski/mini.icons", lazy = true },
 	},
-	opts = {
-		scope = "git", -- also try out "git_branch"
-		icons = true, -- setting to "true" requires "nvim-web-devicons"
-		status = false,
-	},
+	config = function()
+		local strings = require("utils.strings")
+		require("grapple").setup({
+			scope = "git", -- also try out "git_branch"
+			icons = true, -- setting to "true" requires "nvim-web-devicons"
+			status = false,
+			tag_title = function()
+				local cwd = vim.fn.getcwd()
+				local dir_name = vim.fn.fnamemodify(cwd, ":t")
+				return strings.titlecase(dir_name)
+			end,
+			win_opts = {
+				footer = "",
+			},
+		})
+	end,
 	keys = {
 		{ "<leader>a", "<cmd>Grapple toggle<cr>", desc = "Tag a file" },
 		{ "<leader>e", "<cmd>Grapple toggle_tags<cr>", desc = "Toggle tags menu" },
@@ -17,8 +28,5 @@ return {
 		{ "<leader>3", "<cmd>Grapple select index=3<cr>", desc = "Select third tag" },
 		{ "<leader>4", "<cmd>Grapple select index=4<cr>", desc = "Select fourth tag" },
 		{ "<leader>5", "<cmd>Grapple select index=5<cr>", desc = "Select fifth tag" },
-
-		{ "<c-l>", "<cmd>Grapple cycle_tags next<cr>", desc = "Go to next tag" },
-		{ "<c-h>", "<cmd>Grapple cycle_tags prev<cr>", desc = "Go to previous tag" },
 	},
 }

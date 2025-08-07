@@ -7,10 +7,11 @@ return {
 		lint.linters_by_ft = {
 			lua = { "luacheck" },
 			go = { "golangcilint" },
-			sql = { "sqlfluff" },
 			typescript = { "eslint" },
 		}
+
 		lint.linters.luacheck.args = { "vim" }
+
 		local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
 
 		vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
@@ -19,9 +20,5 @@ return {
 				lint.try_lint()
 			end,
 		})
-
-		vim.keymap.set("n", "<leader>lt", function()
-			lint.try_lint()
-		end, { desc = "Trigger linting for current file" })
 	end,
 }
