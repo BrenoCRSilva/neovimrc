@@ -1,13 +1,12 @@
 vim.opt.shiftwidth = 4
 vim.opt.nu = true
+vim.opt.hlsearch = false
 vim.opt.clipboard = "unnamedplus"
 vim.opt.relativenumber = true
 vim.opt.tabstop = 4
 vim.opt.virtualedit = "block"
 vim.opt.softtabstop = 4
-vim.opt.updatetime = 100
-vim.opt.pumblend = 10
-vim.opt.winblend = 10
+vim.opt.updatetime = 50
 vim.opt.expandtab = true
 vim.opt.smartindent = true
 vim.opt.ruler = false

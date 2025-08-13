@@ -8,10 +8,10 @@ autocmd!
 autocmd TextYankPost * lua vim.highlight.on_yank()
 augroup end
 ]])
-vim.api.nvim_set_hl(0, "CmpNormal", { bg = "#191724" })
-vim.api.nvim_set_hl(0, "GrappleNormal", { bg = "#191724" })
-vim.api.nvim_set_hl(0, "GrappleBorder", { bg = "#191724", fg = "#eb6f92" })
-vim.api.nvim_set_hl(0, "GrappleTitle", { bg = "#191724", fg = "#f6c177" })
+
+vim.api.nvim_set_hl(0, "GrappleBorder", { fg = "#eb6f92" })
+vim.api.nvim_set_hl(0, "GrappleTitle", { fg = "#f6c177" })
+
 vim.api.nvim_create_autocmd("QuickFixCmdPost", {
 	pattern = "*",
 	callback = function()
@@ -24,3 +24,11 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "CursorMoved" }, {
 		vim.cmd("echo ''")
 	end,
 })
+
+vim.api.nvim_create_user_command("AddGoTags", function(opts)
+	require("brenocrs.go-tagger").add_tags(opts.line1 - 1, opts.line2)
+end, { range = true })
+
+vim.api.nvim_create_user_command("RemoveGoTags", function(opts)
+	require("brenocrs.go-tagger").remove_tags(opts.line1 - 1, opts.line2)
+end, { range = true })

@@ -5,8 +5,8 @@ return {
 		require("ultimate-autopair").setup({
 			fastwarp = {
 				multi = true,
-				{},
-				{ faster = true, map = "<C-e>", cmap = "<C-e>", rmap = "<C-E>", rcmap = "<C-E>" },
+				{ faster = true, map = "<C-E>", cmap = "<C-E>" },
+				{ faster = false, map = "<C-e>", cmap = "<C-e>" },
 			},
 
 			tabout = {

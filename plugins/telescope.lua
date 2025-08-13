@@ -14,7 +14,6 @@ return {
 			actions.send_to_qflist(prompt_bufnr)
 			if trouble.is_open() then
 				trouble.close()
-				trouble.open("quickfix")
 			end
 			trouble.open("quickfix")
 		end
@@ -44,13 +43,10 @@ return {
 				cwd = vim.uv.cwd(),
 			})
 		end)
-		vim.keymap.set("n", "<leader>fb", function()
-			local word = vim.fn.expand("<cword>")
-			require("telescope.builtin").current_buffer_fuzzy_find({
-				default_text = word,
-			})
-		end)
 		vim.keymap.set("n", "<leader>fh", function()
+			require("telescope.builtin").help_tags({})
+		end)
+		vim.keymap.set("n", "<leader>fa", function()
 			require("telescope.builtin").find_files({
 				cwd = "~/",
 				hidden = true,
@@ -59,6 +55,14 @@ return {
 		vim.keymap.set("n", "<leader>fc", function()
 			require("telescope.builtin").find_files({
 				cwd = vim.fn.stdpath("config"),
+			})
+		end)
+		vim.keymap.set("n", "<leader>fb", function()
+			local word = vim.fn.expand("<cword>")
+			local current_file = vim.fn.expand("%:p")
+			require("telescope.builtin").grep_string({
+				search = word,
+				search_dirs = { current_file },
 			})
 		end)
 		vim.keymap.set("n", "<leader>fw", function()

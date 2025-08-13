@@ -5,6 +5,7 @@ return {
 		trouble.setup({
 			modes = {
 				buffer_diagnostics = {
+					mode = "diagnostics",
 					auto_open = false,
 					auto_close = true,
 					focus = false,

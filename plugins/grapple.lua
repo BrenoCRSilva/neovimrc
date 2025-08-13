@@ -6,8 +6,8 @@ return {
 	config = function()
 		local strings = require("utils.strings")
 		require("grapple").setup({
-			scope = "git", -- also try out "git_branch"
-			icons = true, -- setting to "true" requires "nvim-web-devicons"
+			scope = "git",
+			icons = true,
 			status = false,
 			tag_title = function()
 				local cwd = vim.fn.getcwd()
