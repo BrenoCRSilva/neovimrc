@@ -27,37 +27,18 @@ nvim
 
 ## Tmux Integration
 
-This configuration is optimized for use with tmux terminal multiplexer:
+This configuration is designed for tmux with project-based session management.
 
-### Recommended Workflow
-1. **Session Management** - Use tmux sessions for different projects
-2. **Window Organization** - Dedicate tmux windows for different tasks (editor, tests, logs)
-3. **Pane Splitting** - Split tmux panes for terminal commands while keeping Neovim focused
-4. **Navigation** - Seamless switching between tmux panes and Neovim windows
+### Recommended Setup
+Use [tmux-sessionizer](https://github.com/ThePrimeagen/tmux-sessionizer) for session management:
+- **Sessions** = Projects (one session per codebase)
+- **Windows** = Tabs (editor, terminal, logs, etc.)
+- **Grapple tags** and **Telescope** are session-scoped
 
-### Benefits with tmux
-- **Persistent Sessions** - Keep your development environment alive across disconnections
-- **Multiple Projects** - Switch between different codebases without losing context
-- **Terminal Access** - Quick access to shell commands without leaving your editor
-- **Resource Efficiency** - One Neovim instance per tmux window/session
-
-### Suggested tmux Setup
-```bash
-# Create project session
-tmux new-session -d -s myproject
-
-# Window 0: Main editor
-tmux rename-window -t myproject:0 'editor'
-
-# Window 1: Testing/commands  
-tmux new-window -t myproject -n 'terminal'
-
-# Window 2: Logs/monitoring
-tmux new-window -t myproject -n 'logs'
-
-# Attach to session
-tmux attach-session -t myproject
-```
+### Why Session-Scoped?
+- **Grapple** maintains separate tag lists per tmux session
+- **Telescope** searches within session's working directory
+- Each project gets isolated file navigation and tagging
 
 ## Project Structure
 
