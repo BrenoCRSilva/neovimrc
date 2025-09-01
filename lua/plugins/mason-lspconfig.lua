@@ -51,6 +51,15 @@ return {
 			on_attach = on_attach,
 		})
 
+		vim.lsp.config("pyright", {
+			on_attach = on_attach,
+			settings = {
+				python = {
+					pythonPath = "./venv/bin/python",
+				},
+			},
+		})
+
 		vim.lsp.config("postgres_lsp", {
 			on_attach = on_attach,
 			cmd = { "postgrestools", "lsp-proxy" },
