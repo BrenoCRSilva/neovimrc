@@ -98,6 +98,7 @@ return {
 				"golangci-lint",
 				"goimports",
 				"gofumpt",
+				"black",
 				"golines",
 				"gomodifytags",
 				"gotests",

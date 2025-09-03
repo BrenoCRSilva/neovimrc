@@ -8,6 +8,7 @@ return {
 				sql = { "sleek" },
 				go = { "gofumpt", "goimports", "golines" },
 				typescript = { "prettier", "eslint" },
+				python = { "black" },
 			},
 			formatters = {
 				sleek = {
