@@ -51,6 +51,10 @@ return {
 			on_attach = on_attach,
 		})
 
+		vim.lsp.config("sqlls", {
+			on_attach = on_attach,
+		})
+
 		vim.lsp.config("pyright", {
 			on_attach = on_attach,
 			settings = {
@@ -58,13 +62,6 @@ return {
 					pythonPath = "./venv/bin/python",
 				},
 			},
-		})
-
-		vim.lsp.config("postgres_lsp", {
-			on_attach = on_attach,
-			cmd = { "postgrestools", "lsp-proxy" },
-			filetypes = { "sql" },
-			single_file_support = true,
 		})
 
 		vim.lsp.config("lua_ls", {
@@ -104,18 +101,17 @@ return {
 				"gotests",
 				"prettier",
 				"eslint",
-				"postgrestools",
 				"stylua",
 				"luacheck",
 			},
 		})
 
 		require("mason-lspconfig").setup({
-			vim.lsp.enable("postgres_lsp"),
 			automatic_enabled = true,
 			ensure_installed = {
 				"lua_ls",
 				"pyright",
+				"sqlls",
 				"gopls",
 				"ts_ls",
 			},

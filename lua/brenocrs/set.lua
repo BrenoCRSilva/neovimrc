@@ -22,14 +22,14 @@ vim.g.netrw_winsize = 25
 vim.g.mapleader = " "
 vim.opt.shell = os.getenv("SHELL")
 vim.g.clipboard = {
-	name = "win32yank-wsl",
+	name = "wl-clipboard",
 	copy = {
-		["+"] = "win32yank.exe -i --crlf",
-		["*"] = "win32yank.exe -i --crlf",
+		["+"] = "wl-copy",
+		["*"] = "wl-copy",
 	},
 	paste = {
-		["+"] = "win32yank.exe -o --lf",
-		["*"] = "win32yank.exe -o --lf",
+		["+"] = "wl-paste --no-newline",
+		["*"] = "wl-paste --no-newline",
 	},
-	cache_enable = 1,
+	cache_enable = 0,
 }

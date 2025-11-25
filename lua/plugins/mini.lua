@@ -1,4 +1,5 @@
 return {
+	--test
 	{
 		"echasnovski/mini.icons",
 		version = false,

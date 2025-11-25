@@ -13,7 +13,7 @@ return {
 			formatters = {
 				sleek = {
 					command = "sleek",
-					args = { "--indent-spaces=2", "--lines-between-queries=3" },
+					args = { "--indent-spaces=4", "--lines-between-queries=3" },
 				},
 			},
 			format_on_save = {
