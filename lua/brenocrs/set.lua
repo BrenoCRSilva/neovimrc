@@ -1,5 +1,12 @@
 vim.opt.shiftwidth = 4
 vim.opt.nu = true
+vim.opt.cursorline = true
+vim.opt.cursorlineopt = "number" -- Highlight both line and number (default)
+vim.o.foldcolumn = "1"
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 vim.opt.hlsearch = false
 vim.opt.clipboard = "unnamedplus"
 vim.opt.relativenumber = true
