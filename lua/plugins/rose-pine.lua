@@ -16,6 +16,7 @@ return {
 		})
 		vim.cmd("colorscheme rose-pine")
 		vim.api.nvim_set_hl(0, "@function.builtin", { fg = "#eb6f92" })
+		vim.api.nvim_set_hl(0, "Folded", { bg = "#21202e" }) -- Fixed: this sets UfoFoldedBg
 		vim.api.nvim_set_hl(0, "Visual", { bg = "#44415a" })
 		vim.api.nvim_set_hl(0, "@type.builtin", { bold = true, fg = "#9ccfd8" })
 		vim.api.nvim_set_hl(0, "HeaderA", { fg = "#c0c0c0" })
