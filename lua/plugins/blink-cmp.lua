@@ -7,8 +7,18 @@ return {
 			"Exafunction/codeium.nvim",
 			{ "L3MON4D3/LuaSnip", version = "v2.*" },
 		},
-		build = "cargo build --release",
 		opts = {
+			fuzzy = {
+				use_typo_resistance = true,
+				use_frecency = true,
+				use_proximity = true,
+				max_items = 200,
+				sorts = { "score", "sort_text" },
+				prebuilt_binaries = {
+					download = true,
+					force_version = nil,
+				},
+			},
 			keymap = {
 				preset = "none",
 				["<C-k>"] = { "select_prev", "fallback" },
