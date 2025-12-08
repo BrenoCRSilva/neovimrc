@@ -1,33 +1,62 @@
-vim.opt.shiftwidth = 4
-vim.opt.nu = true
-vim.opt.cursorline = true
-vim.opt.cursorlineopt = "number" -- Highlight both line and number (default)
+-- Leader key (must be set before plugins load)
+vim.g.mapleader = " "
+
+-- ============================================
+-- EDITOR BEHAVIOR
+-- ============================================
+
+-- Line numbers
+vim.o.nu = true
+vim.o.relativenumber = true
+vim.o.cursorline = true
+vim.o.cursorlineopt = "number"
+
+-- Indentation
+vim.o.tabstop = 4
+vim.o.softtabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
+vim.o.smartindent = true
+
+-- Search
+vim.o.hlsearch = false
+
+-- Scrolling & viewport
+vim.o.scrolloff = 8
+vim.o.wrap = false
+vim.o.virtualedit = "block"
+
+-- UI & appearance
+vim.o.termguicolors = true
+vim.o.ruler = false
+vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+
+-- Performance
+vim.o.updatetime = 50
+
+-- ============================================
+-- FILE MANAGEMENT
+-- ============================================
+
+vim.o.swapfile = false
+vim.o.backup = false
+vim.o.undofile = true
+vim.o.undodir = os.getenv("HOME") .. "/.nvim/undodir"
+
+-- ============================================
+-- FOLDING (UFO)
+-- ============================================
+
 vim.o.foldcolumn = "1"
 vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
-vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
-vim.opt.hlsearch = false
-vim.opt.clipboard = "unnamedplus"
-vim.opt.relativenumber = true
-vim.opt.tabstop = 4
-vim.opt.virtualedit = "block"
-vim.opt.softtabstop = 4
-vim.opt.updatetime = 50
-vim.opt.expandtab = true
-vim.opt.smartindent = true
-vim.opt.ruler = false
-vim.opt.termguicolors = true
-vim.opt.scrolloff = 8
-vim.opt.wrap = false
-vim.opt.swapfile = false
-vim.opt.backup = false
-vim.opt.undofile = true
-vim.opt.undodir = os.getenv("HOME") .. "/.nvim/undodir"
-vim.g.netrw_banner = 0
-vim.g.netrw_winsize = 25
-vim.g.mapleader = " "
-vim.opt.shell = os.getenv("SHELL")
+
+-- ============================================
+-- CLIPBOARD (Wayland)
+-- ============================================
+
+vim.o.clipboard = "unnamedplus"
 vim.g.clipboard = {
 	name = "wl-clipboard",
 	copy = {
@@ -40,3 +69,21 @@ vim.g.clipboard = {
 	},
 	cache_enable = 0,
 }
+
+-- ============================================
+-- SHELL
+-- ============================================
+
+vim.o.shell = os.getenv("SHELL")
+
+-- ============================================
+-- PLUGIN CONFIGURATION
+-- ============================================
+
+-- Undotree
+vim.g.undotree_SetFocusWhenToggle = 1
+vim.g.undotree_DiffpanelHeight = 0
+
+-- Netrw
+vim.g.netrw_banner = 0
+vim.g.netrw_winsize = 25
