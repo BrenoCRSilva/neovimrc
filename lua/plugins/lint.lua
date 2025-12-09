@@ -6,7 +6,7 @@ return {
 		lint.linters_by_ft = {
 			lua = { "luacheck" },
 			go = { "golangcilint" },
-			typescript = { "eslint" },
+			typescript = { "eslint_d" },
 			sql = { "sqlfluff" },
 		}
 

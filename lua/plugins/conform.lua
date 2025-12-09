@@ -6,7 +6,7 @@ return {
 			formatters_by_ft = {
 				lua = { "stylua" },
 				go = { "gofumpt", "goimports", "golines" },
-				typescript = { "prettier", "eslint" },
+				typescript = { "prettier" },
 				python = { "black" },
 			},
 			format_on_save = {

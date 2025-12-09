@@ -100,7 +100,7 @@ return {
 				"gomodifytags",
 				"gotests",
 				"prettier",
-				"eslint",
+				"eslint_d",
 				"stylua",
 				"luacheck",
 			},
