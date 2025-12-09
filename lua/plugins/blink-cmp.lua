@@ -9,8 +9,9 @@ return {
 		},
 		opts = {
 			fuzzy = {
-				use_typo_resistance = true,
-				use_frecency = true,
+				frecency = {
+					enabled = true,
+				},
 				use_proximity = true,
 				max_items = 200,
 				sorts = { "score", "sort_text" },
