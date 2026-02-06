@@ -13,11 +13,16 @@ return {
 					enabled = true,
 				},
 				use_proximity = true,
-				max_items = 200,
+				max_items = 50,
 				sorts = { "score", "sort_text" },
 				prebuilt_binaries = {
 					download = true,
-					force_version = nil,
+				},
+			},
+			trigger = {
+				completion = {
+					debounce = 80,
+					throttle = 40,
 				},
 			},
 			keymap = {
@@ -37,8 +42,13 @@ return {
 					copilot = {
 						name = "copilot",
 						module = "blink-copilot",
-						score_offset = 100,
+						score_offset = 70,
 						async = true,
+						debounce = 250,
+						transform_items = function(_, items)
+							-- Limit copilot results to top 5
+							return vim.list_slice(items, 1, 5)
+						end,
 					},
 				},
 			},

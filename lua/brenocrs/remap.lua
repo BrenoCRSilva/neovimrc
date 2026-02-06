@@ -58,3 +58,10 @@ vim.keymap.set("n", "<leader>wh", "<C-w>h")
 -- Movement remaps
 vim.keymap.set({ "n", "o", "v" }, "*", "^")
 vim.keymap.set({ "n", "o", "v" }, "$", "g_")
+
+-- Clipboard paste
+vim.keymap.set("n", "<leader>P", function()
+	vim.opt.paste = true
+	vim.cmd('normal! "+p')
+	vim.opt.paste = false
+end, { desc = "Paste from clipboard" })
