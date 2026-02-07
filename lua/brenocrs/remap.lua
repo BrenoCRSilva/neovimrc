@@ -22,7 +22,7 @@ vim.keymap.set(
 -- Replace word (only in regular Neovim, not VSCode)
 if not vim.g.vscode then
 	vim.keymap.set("n", "<leader>rw", function()
-		local replace_word = vim.fn.input("Replace word: ")
+		local replace_word = vim.fn.expand("<cword>")
 		if replace_word == "" then
 			return
 		end
@@ -37,7 +37,7 @@ if not vim.g.vscode then
 		vim.o.hlsearch = true
 		vim.cmd("redraw")
 
-		local target_word = vim.fn.input("With word: ")
+		local target_word = vim.fn.input("Replace '" .. replace_word .. "' with: ")
 		if target_word == "" then
 			return
 		end

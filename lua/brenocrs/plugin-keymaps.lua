@@ -78,7 +78,7 @@ vim.api.nvim_create_autocmd("User", {
 				local word = vim.fn.expand("<cWORD>")
 				require("telescope.builtin").grep_string({ search = word })
 			end)
-			vim.keymap.set("n", "<leader>fg", function(opts)
+			vim.keymap.set("n", "<leader>fG", function(opts)
 				opts = opts or {}
 				local current_file = vim.fn.expand("%:p")
 
@@ -125,7 +125,7 @@ vim.api.nvim_create_autocmd("User", {
 					})
 					:find()
 			end)
-			vim.keymap.set("n", "<leader>fG", function(opts)
+			vim.keymap.set("n", "<leader>fg", function(opts)
 				opts = opts or {}
 				opts.cwd = opts.cwd or vim.uv.cwd()
 				local pickers = require("telescope.pickers")
