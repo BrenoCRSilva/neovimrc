@@ -13,29 +13,17 @@ return {
 			},
 
 			completion = {
-				custom_rules = {
-					"scratch/custom_rules/",
-				},
 				files = {
 					-- enabled = true,
 					-- max_file_size = 102400,     -- bytes, skip files larger than this
 					-- max_files = 5000,            -- cap on total discovered files
 					-- exclude = { ".env", ".env.*", "node_modules", ".git", ... },
 				},
-				source = "cmp",
 			},
 
 			md_files = {
 				"agents.md",
 			},
 		})
-
-		vim.keymap.set("v", "<leader>9v", function()
-			_99.visual()
-		end)
-
-		vim.keymap.set("v", "<leader>9s", function()
-			_99.stop_all_requests()
-		end)
 	end,
 }

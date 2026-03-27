@@ -326,3 +326,15 @@ vim.keymap.set("n", "<leader>lf", function()
 		vim.cmd("e!") -- Reload the file after fixing
 	end
 end, { desc = "SQLFluff fix with dialect" })
+
+-- 99
+vim.api.nvim_create_autocmd("User", {
+	pattern = "LazyLoad",
+	callback = function(event)
+		if event.data == "99" then
+			vim.keymap.set("v", "<leader>vp", function()
+				require("99").visual()
+			end)
+		end
+	end,
+})
