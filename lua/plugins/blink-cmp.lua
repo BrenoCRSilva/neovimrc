@@ -37,8 +37,12 @@ return {
 				completion = { menu = { auto_show = true } },
 			},
 			sources = {
-				default = { "copilot", "lsp", "path", "snippets", "buffer" },
+				default = { "copilot", "lsp", "path", "snippets", "buffer", "markview" },
 				providers = {
+					markview = {
+						name = "markview",
+						module = "markview.extensions.blink",
+					},
 					copilot = {
 						name = "copilot",
 						module = "blink-copilot",
@@ -56,6 +60,9 @@ return {
 				documentation = {
 					auto_show = false,
 					window = {
+						render = function(bufnr)
+							require("markview").attach(bufnr)
+						end,
 						border = "single",
 						max_width = 80,
 						max_height = 20,

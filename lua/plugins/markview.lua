@@ -2,7 +2,12 @@
 return {
 	"OXY2DEV/markview.nvim",
 	lazy = false,
-
-	-- Completion for `blink.cmp`
-	-- dependencies = { "saghen/blink.cmp" },
+	opts = {
+		preview = {
+			modes = { "n", "no", "c", "i" },
+			hybrid_modes = { "i" },
+			linewise_hybrid_mode = true,
+			ignore_buftypes = {}, -- default may include "nofile", clear it
+		},
+	},
 }
