@@ -39,10 +39,6 @@ return {
 			sources = {
 				default = { "copilot", "lsp", "path", "snippets", "buffer", "markview" },
 				providers = {
-					markview = {
-						name = "markview",
-						module = "markview.extensions.blink",
-					},
 					copilot = {
 						name = "copilot",
 						module = "blink-copilot",
