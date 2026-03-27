@@ -18,6 +18,9 @@ vim.o.shiftwidth = 4
 vim.o.expandtab = true
 vim.o.smartindent = true
 
+-- Inherit
+vim.g.editorconfig = true
+
 -- Search
 vim.o.hlsearch = false
 

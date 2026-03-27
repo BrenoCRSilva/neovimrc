@@ -78,7 +78,23 @@ return {
 			},
 		})
 
+		-- Substitui o vim.lsp.con (typo) e adiciona vue_ls
 		vim.lsp.config("ts_ls", {
+			on_attach = on_attach,
+			init_options = {
+				plugins = {
+					{
+						name = "@vue/typescript-plugin",
+						location = vim.fn.stdpath("data")
+							.. "/mason/packages/vue-language-server/node_modules/@vue/typescript-plugin",
+						languages = { "vue" },
+					},
+				},
+			},
+			filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+		})
+
+		vim.lsp.config("vue_ls", {
 			on_attach = on_attach,
 		})
 
@@ -114,6 +130,7 @@ return {
 				"sqlls",
 				"gopls",
 				"ts_ls",
+				"vue-language-server",
 			},
 		})
 	end,
