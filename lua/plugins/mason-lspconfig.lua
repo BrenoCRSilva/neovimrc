@@ -130,7 +130,7 @@ return {
 				"sqlls",
 				"gopls",
 				"ts_ls",
-				"vue-language-server",
+				"vue_ls",
 			},
 		})
 	end,
