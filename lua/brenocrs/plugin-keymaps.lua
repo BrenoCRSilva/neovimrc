@@ -182,29 +182,190 @@ vim.api.nvim_create_autocmd("User", {
 	callback = function(event)
 		if event.data == "vim-fugitive" then
 			vim.keymap.set("n", "<leader>gs", "<cmd>Git<CR>|<cmd>10wincmd_<CR>")
-			vim.keymap.set("n", "<leader>gb", function()
-				vim.cmd("Git branch")
-				vim.cmd("10wincmd_")
-
-				local branch = vim.fn.input("Branch name (new or existing): ")
-				vim.cmd("close")
-
-				if branch ~= "" then
-					-- Check if branch exists
-					local branch_exists = vim.fn.system("git rev-parse --verify " .. branch .. " 2>/dev/null")
-
-					if vim.v.shell_error == 0 then
-						vim.cmd("Git checkout " .. branch)
-						vim.notify("Checked out existing branch: " .. branch, vim.log.levels.INFO)
-					else
-						vim.cmd("Git checkout -b " .. branch)
-						vim.notify("Created and checked out new branch: " .. branch, vim.log.levels.INFO)
-					end
-				end
-			end)
 			vim.keymap.set("n", "<leader>gP", "<cmd>Git pull --rebase<CR>")
 
-			-- Fugitive buffer-specific keymaps
+			local PROTECTED = { main = true, master = true, develop = true, staging = true }
+
+			local BRANCH_PREFIXES = { "feat", "fix", "wip", "chore", "refactor", "docs", "test", "hotfix" }
+			local COMMIT_PREFIXES =
+				{ "feat", "fix", "chore", "refactor", "docs", "test", "perf", "ci", "build", "revert" }
+
+			local function get_main_branch()
+				local ref = vim.fn.system("git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null"):gsub("%s+", "")
+				if ref ~= "" then
+					return ref:match("refs/remotes/origin/(.+)$")
+				end
+				for _, name in ipairs({ "main", "master", "develop" }) do
+					if vim.fn.system("git rev-parse --verify " .. name .. " 2>/dev/null") ~= "" then
+						return name
+					end
+				end
+			end
+
+			local function get_worktree_branches()
+				local active = {}
+				local lines = vim.fn.systemlist("git worktree list --porcelain 2>/dev/null")
+				for _, line in ipairs(lines) do
+					local branch = line:match("^branch refs/heads/(.+)$")
+					if branch then
+						active[branch] = true
+					end
+				end
+				return active
+			end
+
+			local function get_stashed_branches()
+				local stashed = {}
+				local lines = vim.fn.systemlist("git stash list 2>/dev/null")
+				for _, line in ipairs(lines) do
+					local branch = line:match("WIP on ([^:]+):")
+					if branch then
+						stashed[branch] = true
+					end
+				end
+				return stashed
+			end
+
+			local function get_deletable_merged()
+				vim.fn.system("git fetch --prune 2>/dev/null")
+				local base = get_main_branch()
+				if not base then
+					return nil, "Could not detect main branch"
+				end
+
+				local worktree_branches = get_worktree_branches()
+				local stashed_branches = get_stashed_branches()
+				local merged = vim.fn.systemlist("git branch --merged " .. vim.fn.shellescape(base) .. " 2>/dev/null")
+				local deletable = {}
+
+				for _, line in ipairs(merged) do
+					if line:sub(1, 1) ~= "*" then
+						local name = line:gsub("^%s+", "")
+						if not PROTECTED[name] and not worktree_branches[name] and not stashed_branches[name] then
+							table.insert(deletable, name)
+						end
+					end
+				end
+				return deletable
+			end
+
+			local function prune_merged()
+				local deletable, err = get_deletable_merged()
+				if not deletable then
+					vim.notify(err, vim.log.levels.WARN)
+					return {}
+				end
+				local deleted = {}
+				for _, branch in ipairs(deletable) do
+					vim.fn.system("git branch -d " .. vim.fn.shellescape(branch))
+					table.insert(deleted, branch)
+				end
+				return deleted
+			end
+
+			local function get_branches()
+				local output = vim.fn.systemlist("git branch --sort=-committerdate 2>/dev/null")
+				local branches, current = {}, nil
+				for _, line in ipairs(output) do
+					local is_current = line:sub(1, 1) == "*"
+					local name = line:gsub("^[%*%s]+", "")
+					if is_current then
+						current = name
+						table.insert(branches, 1, "* " .. name .. " (current)")
+					else
+						table.insert(branches, "  " .. name)
+					end
+				end
+				return branches, current
+			end
+
+			local function parse_branch(label)
+				return label:gsub("^[%*%s]+", ""):gsub("%s*%(current%)$", "")
+			end
+
+			local function pick_branch_prefix(cb)
+				vim.ui.select(BRANCH_PREFIXES, { prompt = "Branch prefix:" }, function(prefix)
+					if not prefix then
+						return
+					end
+					vim.ui.input({ prompt = "Branch name (no spaces): " }, function(name)
+						if not name or name == "" then
+							return
+						end
+						cb(prefix .. "/" .. name)
+					end)
+				end)
+			end
+
+			local function pick_commit_prefix(cb)
+				vim.ui.select(COMMIT_PREFIXES, { prompt = "Commit type:" }, function(prefix)
+					if not prefix then
+						return
+					end
+					vim.ui.input({ prompt = "Scope (optional, e.g. auth): " }, function(scope)
+						local header = scope and scope ~= "" and (prefix .. "(" .. scope .. "): ") or (prefix .. ": ")
+						vim.ui.input({ prompt = "Message: " }, function(msg)
+							if not msg or msg == "" then
+								return
+							end
+							cb(header .. msg)
+						end)
+					end)
+				end)
+			end
+
+			vim.keymap.set("n", "<leader>gb", function()
+				local pruned = prune_merged()
+				if #pruned > 0 then
+					vim.notify("Pruned merged: " .. table.concat(pruned, ", "), vim.log.levels.INFO)
+				end
+
+				local branches = get_branches()
+				local items = vim.list_extend({ "+ New branch..." }, branches)
+
+				vim.ui.select(items, { prompt = "Checkout branch:" }, function(choice)
+					if not choice then
+						return
+					end
+					if choice:match("^%+") then
+						pick_branch_prefix(function(full_name)
+							vim.cmd("Git checkout -b " .. vim.fn.shellescape(full_name))
+							vim.notify("Created: " .. full_name, vim.log.levels.INFO)
+						end)
+					else
+						local branch = parse_branch(choice)
+						vim.cmd("Git checkout " .. vim.fn.shellescape(branch))
+						vim.notify("Checked out: " .. branch, vim.log.levels.INFO)
+					end
+				end)
+			end)
+
+			vim.keymap.set("n", "<leader>gD", function()
+				local deletable, err = get_deletable_merged()
+				if not deletable then
+					vim.notify(err, vim.log.levels.WARN)
+					return
+				end
+
+				if #deletable == 0 then
+					vim.notify("No merged branches to delete.", vim.log.levels.INFO)
+					return
+				end
+
+				local items = vim.list_extend({ "!! Delete all (" .. #deletable .. ")" }, deletable)
+
+				vim.ui.select(items, { prompt = "Delete merged branches:" }, function(choice)
+					if not choice then
+						return
+					end
+					local targets = choice:match("^!!") and deletable or { choice:gsub("^%s+", "") }
+					for _, branch in ipairs(targets) do
+						vim.fn.system("git branch -d " .. vim.fn.shellescape(branch))
+					end
+					vim.notify("Deleted: " .. table.concat(targets, ", "), vim.log.levels.INFO)
+				end)
+			end)
+
 			local FugitiveCfg = vim.api.nvim_create_augroup("FugitiveCfg", {})
 			vim.api.nvim_create_autocmd("BufWinEnter", {
 				group = FugitiveCfg,
@@ -220,6 +381,12 @@ vim.api.nvim_create_autocmd("User", {
 						vim.cmd.Git("push")
 					end, opts)
 					vim.keymap.set("n", "<leader>go", "<cmd>Git push -u origin HEAD<CR>", opts)
+
+					vim.keymap.set("n", "cc", function()
+						pick_commit_prefix(function(full_msg)
+							vim.cmd("Git commit -m " .. vim.fn.shellescape(full_msg))
+						end)
+					end, opts)
 				end,
 			})
 		end
